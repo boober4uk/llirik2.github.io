@@ -26,21 +26,12 @@ jobs:
         with:
           node-version: 20
 
-      - name: Copy portfolio
-        run: |
-          rm -rf /tmp/portfolio
-          mkdir -p /tmp/portfolio
-          cp -r bober4uk-portfolio-updated /tmp/portfolio
-          if [ -d /tmp/portfolio/bober4uk-portfolio-updated ]; then
-            mv /tmp/portfolio/bober4uk-portfolio-updated /tmp/portfolio/bober4uk-portfolio
-          fi
-
       - name: Install dependencies
-        working-directory: /tmp/portfolio/bober4uk-portfolio
+        working-directory: bober4uk-portfolio-updated/bober4uk-portfolio
         run: npm ci
 
-      - name: Configure Next.js for GitHub Pages
-        working-directory: /tmp/portfolio/bober4uk-portfolio
+      - name: Configure Next.js for custom domain
+        working-directory: bober4uk-portfolio-updated/bober4uk-portfolio
         run: |
           cat > next.config.mjs <<'EOF'
           /** @type {import('next').NextConfig} */
@@ -54,8 +45,11 @@ jobs:
           EOF
 
       - name: Build
-        working-directory: /tmp/portfolio/bober4uk-portfolio
+        working-directory: bober4uk-portfolio-updated/bober4uk-portfolio
         run: npm run build
+
+      - name: Preserve custom domain
+        run: cp CNAME bober4uk-portfolio-updated/bober4uk-portfolio/out/CNAME
 
       - name: Configure Pages
         uses: actions/configure-pages@v5
@@ -63,7 +57,7 @@ jobs:
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: /tmp/portfolio/bober4uk-portfolio/out
+          path: bober4uk-portfolio-updated/bober4uk-portfolio/out
 
   deploy:
     needs: build
