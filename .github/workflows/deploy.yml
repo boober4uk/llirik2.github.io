@@ -1,0 +1,75 @@
+name: Deploy Next.js portfolio to GitHub Pages
+
+on:
+  push:
+    branches: ["main"]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Extract portfolio
+        run: |
+          rm -rf /tmp/portfolio
+          mkdir -p /tmp/portfolio
+          unzip -q bober4uk-portfolio-updated.zip -d /tmp/portfolio
+
+      - name: Install dependencies
+        working-directory: /tmp/portfolio/bober4uk-portfolio
+        run: npm ci
+
+      - name: Configure Next.js for GitHub Pages
+        working-directory: /tmp/portfolio/bober4uk-portfolio
+        run: |
+          cat > next.config.mjs <<'EOF'
+          /** @type {import('next').NextConfig} */
+          const nextConfig = {
+            reactStrictMode: true,
+            output: "export",
+            basePath: "/llirik2.github.io",
+            trailingSlash: true,
+            images: { unoptimized: true }
+          };
+          export default nextConfig;
+          EOF
+
+      - name: Build
+        working-directory: /tmp/portfolio/bober4uk-portfolio
+        run: npm run build
+
+      - name: Configure Pages
+        uses: actions/configure-pages@v5
+
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: /tmp/portfolio/bober4uk-portfolio/out
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
