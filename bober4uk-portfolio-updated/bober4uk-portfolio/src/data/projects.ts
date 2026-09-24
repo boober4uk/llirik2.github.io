@@ -26,7 +26,7 @@ export const projects: Project[] = [
     category: { ru: "Карта", en: "Map" },
     version: ["1.21.11"],
     date: "2026-06-24",
-    cover: "/images/projects/speed-craft.svg",
+    cover: "/images/projects/preview_map_speed_craft.webp",
     downloadUrl: "#",
     price: { amount: 2000, currency: "RUB", estimated: true }
   },
@@ -55,7 +55,7 @@ export const projects: Project[] = [
     category: { ru: "Датапак", en: "Datapack" },
     version: ["1.21.11"],
     date: "2026-06-24",
-    cover: "/images/projects/damage-to-mini.svg",
+    cover: "/images/projects/preview_datapack_DTM.webp",
     downloadUrl:
       "https://cdn.modrinth.com/data/eRyi0xHH/versions/VgQtKhs8/dtm.zip?mr_download_reason=standalone&mr_game_version=1.21.11&mr_loader=datapack",
     price: { amount: 350, currency: "RUB", estimated: true }
@@ -85,7 +85,7 @@ export const projects: Project[] = [
     category: { ru: "Датапак", en: "Datapack" },
     version: ["1.21.1"],
     date: "2025-03-10",
-    cover: "/images/projects/rolling-sniffer.svg",
+    cover: "/images/projects/preview_datapack_RS.webp",
     downloadUrl:
       "https://cdn.modrinth.com/data/iR5e4XmH/versions/domyEy7F/RollingSniffer.zip?mr_download_reason=standalone",
     rating: 4,
@@ -116,7 +116,7 @@ export const projects: Project[] = [
     category: { ru: "Датапак", en: "Datapack" },
     version: ["1.21.1"],
     date: "2026-06-30",
-    cover: "/images/projects/prank-datapack.svg",
+    cover: "/images/projects/DFP_preview_datapack.webp",
     downloadUrl: "#",
     rating: 5,
     feedback: {
