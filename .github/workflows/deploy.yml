@@ -26,11 +26,14 @@ jobs:
         with:
           node-version: 20
 
-      - name: Extract portfolio
+      - name: Copy portfolio
         run: |
           rm -rf /tmp/portfolio
           mkdir -p /tmp/portfolio
-          unzip -q bober4uk-portfolio-updated.zip -d /tmp/portfolio
+          cp -r bober4uk-portfolio-updated /tmp/portfolio
+          if [ -d /tmp/portfolio/bober4uk-portfolio-updated ]; then
+            mv /tmp/portfolio/bober4uk-portfolio-updated /tmp/portfolio/bober4uk-portfolio
+          fi
 
       - name: Install dependencies
         working-directory: /tmp/portfolio/bober4uk-portfolio
