@@ -44,7 +44,6 @@ jobs:
           const nextConfig = {
             reactStrictMode: true,
             output: "export",
-            basePath: "/llirik2.github.io",
             trailingSlash: true,
             images: { unoptimized: true }
           };
